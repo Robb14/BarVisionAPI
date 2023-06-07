@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rober\\Desktop\\BarVisionAPI\\BarVisionAPI\\BarVisionAPI.csproj": {}
+    "C:\\Users\\rober\\Desktop\\BarVisionAPI\\BarVisionAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rober\\Desktop\\BarVisionAPI\\BarVisionAPI\\BarVisionAPI.csproj": {
+    "C:\\Users\\rober\\Desktop\\BarVisionAPI\\BarVisionAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rober\\Desktop\\BarVisionAPI\\BarVisionAPI\\BarVisionAPI.csproj",
+        "projectUniqueName": "C:\\Users\\rober\\Desktop\\BarVisionAPI\\BarVisionAPI.csproj",
         "projectName": "BarVisionAPI",
-        "projectPath": "C:\\Users\\rober\\Desktop\\BarVisionAPI\\BarVisionAPI\\BarVisionAPI.csproj",
+        "projectPath": "C:\\Users\\rober\\Desktop\\BarVisionAPI\\BarVisionAPI.csproj",
         "packagesPath": "C:\\Users\\rober\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rober\\Desktop\\BarVisionAPI\\BarVisionAPI\\obj\\",
+        "outputPath": "C:\\Users\\rober\\Desktop\\BarVisionAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\rober\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,18 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"

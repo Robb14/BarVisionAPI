@@ -1,8 +1,8 @@
 public enum UserType
 {
-    Normal,
-    Owner,
-    Admin
+    Normal = 0,
+    Owner = 1,
+    Admin = 2
 }
 
 
@@ -12,7 +12,7 @@ public class UserModel
     public string Username { get; set; }
     public string Password { get; set; }
     public string Email { get; set; }
-    public string UserType { get; set; }
+    public UserType UserType { get; set; }
     public bool IsActive { get; set; }
 
     // Relación uno a muchos con ReservationModel

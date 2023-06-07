@@ -1,9 +1,21 @@
 using Microsoft.EntityFrameworkCore;
 
-public class MyDbContext : DbContext
+public class DataContext : DbContext
 {
-    public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
+    public DataContext()
     {
+    }
+
+    public DataContext(DbContextOptions options) : base(options)
+    {
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    {
+        if (!options.IsConfigured)
+        {
+            options.UseSqlServer("A FALLBACK CONNECTION STRING");
+        }
     }
 
     // Definimos las DbSet para cada una de tus entidades
@@ -15,6 +27,6 @@ public class MyDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
+        base.OnModelCreating(modelBuilder);
     }
 }

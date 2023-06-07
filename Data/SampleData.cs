@@ -1,6 +1,6 @@
 public class SampleData
 {
-    public static void InitializeData(MyDbContext dbContext)
+    public static void InitializeData(DataContext dbContext)
     {
         // Crea el usuario admin
         var admin = new UserModel
@@ -50,7 +50,7 @@ public class SampleData
             Username = "user1",
             Password = "password1",
             Email = "user1@example.com",
-            UserType = UserType.User
+            UserType = UserType.Normal
         };
 
         var reservation1 = new ReservationModel
@@ -66,7 +66,7 @@ public class SampleData
             Username = "user2",
             Password = "password2",
             Email = "user2@example.com",
-            UserType = UserType.User
+            UserType = UserType.Normal
         };
 
         var reservation2 = new ReservationModel
@@ -82,7 +82,7 @@ public class SampleData
             Username = "user3",
             Password = "password3",
             Email = "user3@example.com",
-            UserType = UserType.User
+            UserType = UserType.Normal
         };
 
         var reservation3 = new ReservationModel
@@ -98,7 +98,7 @@ public class SampleData
             Username = "user4",
             Password = "password4",
             Email = "user4@example.com",
-            UserType = UserType.User
+            UserType = UserType.Normal
         };
 
         var reservation4 = new ReservationModel

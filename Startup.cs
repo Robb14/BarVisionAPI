@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 public class Startup
 {
@@ -16,7 +17,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         // Configurar la conexión a la base de datos SQL
-        services.AddDbContext<MyDbContext>(options =>
+        services.AddDbContext<DataContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
         // Otros servicios y configuraciones
