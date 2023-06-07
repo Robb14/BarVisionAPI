@@ -8,6 +8,9 @@ public class BarModel
     public bool IsActive { get; set; }
     public string Menu { get; set; }
 
+    public List<MatchModel> Matches { get; set; }
+
+
     // Relación muchos a uno con UserModel (Propietario)
     public UserModel Owner { get; set; }
 

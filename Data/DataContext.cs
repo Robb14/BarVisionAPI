@@ -27,6 +27,10 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<MatchModel>()
+            .HasOne(m => m.Bar)
+            .WithMany(b => b.Matches)
+            .HasForeignKey(m => m.BarId);
     }
+
 }
