@@ -15,9 +15,15 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        // Configurar servicios necesarios para la aplicación
-        // Ejemplo: services.AddControllers();
+        // Configurar la conexión a la base de datos SQL
+        services.AddDbContext<MyDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+        // Otros servicios y configuraciones
+
+        services.AddControllers();
     }
+
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
