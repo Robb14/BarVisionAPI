@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarVisionAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230607095809_InitialCreate")]
+    [Migration("20230608181731_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -225,7 +225,7 @@ namespace BarVisionAPI.Migrations
             modelBuilder.Entity("MatchModel", b =>
                 {
                     b.HasOne("BarModel", "Bar")
-                        .WithMany()
+                        .WithMany("Matches")
                         .HasForeignKey("BarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -238,13 +238,13 @@ namespace BarVisionAPI.Migrations
                     b.HasOne("BarModel", "Bar")
                         .WithMany("Reservations")
                         .HasForeignKey("BarId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("UserModel", "User")
                         .WithMany("Reservations")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Bar");
@@ -274,6 +274,8 @@ namespace BarVisionAPI.Migrations
             modelBuilder.Entity("BarModel", b =>
                 {
                     b.Navigation("Images");
+
+                    b.Navigation("Matches");
 
                     b.Navigation("Reservations");
 

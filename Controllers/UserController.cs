@@ -1,74 +1,136 @@
-// [ApiController]
-// [Route("api/users")]
-// public class UserController : ControllerBase
-// {
-//     private readonly ApplicationDbContext _context;
-//     private readonly UserManager<User> _userManager;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-//     public UserController(ApplicationDbContext context, UserManager<User> userManager)
-//     {
-//         _context = context;
-//         _userManager = userManager;
-//     }
+namespace BarVisionAPI.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
+    {
+        private readonly DataContext _context;
 
-//     [HttpPost("register")]
-//     public async Task<IActionResult> Register(RegisterModel model)
-//     {
-//         [HttpPost("register")]
-//         public IActionResult Register(RegisterModel model)
-//         {
-//             // Verificar si el modelo de registro es válido
-//             if (!ModelState.IsValid)
-//             {
-//                 return BadRequest(ModelState);
-//             }
+        public UserController(DataContext context)
+        {
+            _context = context;
+        }
 
-//             // Verificar si ya existe un usuario con el mismo nombre de usuario o correo electrónico
-//             if (_userRepository.ExistsUser(model.Username, model.Email))
-//             {
-//                 return Conflict("El nombre de usuario o correo electrónico ya están en uso.");
-//             }
+        // POST: api/user/login
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] UserModel userModel)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userModel.Username && u.Password == userModel.Password && u.IsActive);
+            if (user == null)
+            {
+                return NotFound("Invalid username or password");
+            }
 
-//             // Crear una instancia del modelo de usuario
-//             var user = new User
-//             {
-//                 Username = model.Username,
-//                 Password = model.Password,
-//                 Email = model.Email,
-//                 Role = User.NormalUserRole
-//             };
+            return Ok(user);
+        }
 
-//             // Guardar el nuevo usuario en la base de datos
-//             _userRepository.AddUser(user);
+        // POST: api/user/register
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] UserModel userModel)
+        {
+            if (await _context.Users.AnyAsync(u => u.Username == userModel.Username))
+            {
+                return BadRequest("Username already exists");
+            }
 
-//             // Devolver una respuesta exitosa
-//             return Ok("Usuario registrado exitosamente.");
-//         }
+            var user = new UserModel
+            {
+                Username = userModel.Username,
+                Password = userModel.Password,
+                Email = userModel.Email,
+                UserType = userModel.UserType,
+                IsActive = true
+            };
 
-//     }
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
 
-//     [HttpPost("login")]
-//     public async Task<IActionResult> Login(LoginModel model)
-//     {
-//         // Lógica para iniciar sesión
-//         // ...
-//     }
+            return Ok(user);
+        }
 
-//     [HttpGet("search")]
-//     public IActionResult Search(string query)
-//     {
-//         // Lógica para buscar partidos, localización o bar
-//         // ...
-//     }
+        // GET: api/user/search?query=example
+        [HttpGet("search")]
+        public IActionResult Search(string query)
+        {
+            var bars = _context.Bars.Where(b => b.Name.Contains(query) || b.Match.Contains(query) || b.Location.Contains(query)).ToList();
+            return Ok(bars);
+        }
 
-//     [HttpPost("bars/{barId}/reserve")]
-//     [Authorize(Roles = User.UserRole)]
-//     public IActionResult Reserve(int barId, Reservation model)
-//     {
-//         // Lógica para realizar una reserva en un bar específico
-//         // ...
-//     }
+        // POST: api/user/reserve
+        [HttpPost("reserve")]
+        public async Task<IActionResult> Reserve([FromBody] ReservationModel reservationModel)
+        {
+            var user = await _context.Users.FindAsync(reservationModel.UserId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
 
-//     // Otros métodos para gestionar la información del usuario, como obtener datos del usuario, actualizar perfil, etc.
-//     // ...
-// }
+            var bar = await _context.Bars.FindAsync(reservationModel.BarId);
+            if (bar == null)
+            {
+                return NotFound("Bar not found");
+            }
+
+            var reservation = new ReservationModel
+            {
+                Date = reservationModel.Date,
+                BarId = reservationModel.BarId,
+                UserId = reservationModel.UserId,
+                AmountOfPeople = reservationModel.AmountOfPeople
+            };
+
+            _context.Reservations.Add(reservation);
+            await _context.SaveChangesAsync();
+
+            return Ok(reservation);
+        }
+
+        // POST: api/user/review
+        [HttpPost("review")]
+        public async Task<IActionResult> Review([FromBody] ReviewModel reviewModel)
+        {
+            var user = await _context.Users.FindAsync(reviewModel.UserId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var bar = await _context.Bars.FindAsync(reviewModel.BarId);
+            if (bar == null)
+            {
+                return NotFound("Bar not found");
+            }
+
+            var review = new ReviewModel
+            {
+                UserId = reviewModel.UserId,
+                BarId = reviewModel.BarId,
+                Comment = reviewModel.Comment,
+                Rating = reviewModel.Rating,
+                DateTime = DateTime.Now
+            };
+
+            _context.Reviews.Add(review);
+            await _context.SaveChangesAsync();
+
+            return Ok(review);
+        }
+
+        // GET: api/user/menu/{barId}
+        [HttpGet("menu/{barId}")]
+        public IActionResult GetMenu(int barId)
+        {
+            var bar = _context.Bars.Include(b => b.Menu).FirstOrDefault(b => b.Id == barId);
+            if (bar == null)
+            {
+                return NotFound("Bar not found");
+            }
+
+            return Ok(bar.Menu);
+        }
+    }
+}

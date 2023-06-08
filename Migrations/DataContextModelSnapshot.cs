@@ -203,7 +203,7 @@ namespace BarVisionAPI.Migrations
                     b.HasOne("UserModel", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Owner");
@@ -214,7 +214,7 @@ namespace BarVisionAPI.Migrations
                     b.HasOne("BarModel", "Bar")
                         .WithMany("Images")
                         .HasForeignKey("BarId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Bar");
@@ -225,7 +225,7 @@ namespace BarVisionAPI.Migrations
                     b.HasOne("BarModel", "Bar")
                         .WithMany("Matches")
                         .HasForeignKey("BarId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Bar");
@@ -236,13 +236,13 @@ namespace BarVisionAPI.Migrations
                     b.HasOne("BarModel", "Bar")
                         .WithMany("Reservations")
                         .HasForeignKey("BarId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("UserModel", "User")
                         .WithMany("Reservations")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Bar");
@@ -255,13 +255,13 @@ namespace BarVisionAPI.Migrations
                     b.HasOne("BarModel", "Bar")
                         .WithMany("Reviews")
                         .HasForeignKey("BarId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("UserModel", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Bar");

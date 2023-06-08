@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarVisionAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230607102155_SecondCreate")]
-    partial class SecondCreate
+    [Migration("20230608184107_InitialCreate2")]
+    partial class InitialCreate2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -205,7 +205,7 @@ namespace BarVisionAPI.Migrations
                     b.HasOne("UserModel", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Owner");
@@ -216,7 +216,7 @@ namespace BarVisionAPI.Migrations
                     b.HasOne("BarModel", "Bar")
                         .WithMany("Images")
                         .HasForeignKey("BarId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Bar");
@@ -225,9 +225,9 @@ namespace BarVisionAPI.Migrations
             modelBuilder.Entity("MatchModel", b =>
                 {
                     b.HasOne("BarModel", "Bar")
-                        .WithMany()
+                        .WithMany("Matches")
                         .HasForeignKey("BarId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Bar");
@@ -238,13 +238,13 @@ namespace BarVisionAPI.Migrations
                     b.HasOne("BarModel", "Bar")
                         .WithMany("Reservations")
                         .HasForeignKey("BarId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("UserModel", "User")
                         .WithMany("Reservations")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Bar");
@@ -257,13 +257,13 @@ namespace BarVisionAPI.Migrations
                     b.HasOne("BarModel", "Bar")
                         .WithMany("Reviews")
                         .HasForeignKey("BarId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("UserModel", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Bar");
@@ -274,6 +274,8 @@ namespace BarVisionAPI.Migrations
             modelBuilder.Entity("BarModel", b =>
                 {
                     b.Navigation("Images");
+
+                    b.Navigation("Matches");
 
                     b.Navigation("Reservations");
 

@@ -31,6 +31,40 @@ public class DataContext : DbContext
             .HasOne(m => m.Bar)
             .WithMany(b => b.Matches)
             .HasForeignKey(m => m.BarId);
+
+        modelBuilder.Entity<ReservationModel>()
+        .HasOne(r => r.Bar)
+        .WithMany(b => b.Reservations)
+        .HasForeignKey(r => r.BarId)
+        .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<ReservationModel>()
+            .HasOne(r => r.User)
+            .WithMany(u => u.Reservations)
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<ReviewModel>()
+        .HasOne(r => r.User)
+        .WithMany(u => u.Reviews) // Propiedad de navegación inversa en UserModel
+        .HasForeignKey(r => r.UserId)
+        .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<ReviewModel>()
+            .HasOne(r => r.Bar)
+            .WithMany(b => b.Reviews) // Propiedad de navegación inversa en BarModel
+            .HasForeignKey(r => r.BarId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+
+        var cascadeFKs = modelBuilder.Model.GetEntityTypes()
+    .SelectMany(t => t.GetForeignKeys())
+    .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
+
+        foreach (var fk in cascadeFKs)
+            fk.DeleteBehavior = DeleteBehavior.Restrict;
+
+        base.OnModelCreating(modelBuilder);
     }
 
 }
