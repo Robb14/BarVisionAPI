@@ -44,17 +44,19 @@ public class DataContext : DbContext
             .HasForeignKey(r => r.UserId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        modelBuilder.Entity<ReviewModel>()
+       modelBuilder.Entity<ReviewModel>()
         .HasOne(r => r.User)
-        .WithMany(u => u.Reviews) // Propiedad de navegación inversa en UserModel
+        .WithMany(u => u.Reviews)
         .HasForeignKey(r => r.UserId)
-        .OnDelete(DeleteBehavior.NoAction);
+        .OnDelete(DeleteBehavior.Restrict)
+        .IsRequired(); // Agrega IsRequired() para asegurar que la relación sea obligatoria
 
-        modelBuilder.Entity<ReviewModel>()
-            .HasOne(r => r.Bar)
-            .WithMany(b => b.Reviews) // Propiedad de navegación inversa en BarModel
-            .HasForeignKey(r => r.BarId)
-            .OnDelete(DeleteBehavior.NoAction);
+    modelBuilder.Entity<ReviewModel>()
+        .HasOne(r => r.Bar)
+        .WithMany(b => b.Reviews)
+        .HasForeignKey(r => r.BarId)
+        .OnDelete(DeleteBehavior.Restrict)
+        .IsRequired(); // Agrega IsRequired() para asegurar que la relación sea obligatoria
 
 
         var cascadeFKs = modelBuilder.Model.GetEntityTypes()

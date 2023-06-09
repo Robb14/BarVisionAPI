@@ -255,13 +255,13 @@ namespace BarVisionAPI.Migrations
                     b.HasOne("BarModel", "Bar")
                         .WithMany("Reviews")
                         .HasForeignKey("BarId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("UserModel", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Bar");

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarVisionAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230608184107_InitialCreate2")]
+    [Migration("20230609084544_InitialCreate2")]
     partial class InitialCreate2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -257,13 +257,13 @@ namespace BarVisionAPI.Migrations
                     b.HasOne("BarModel", "Bar")
                         .WithMany("Reviews")
                         .HasForeignKey("BarId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("UserModel", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Bar");
