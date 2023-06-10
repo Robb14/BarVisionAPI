@@ -4,7 +4,7 @@
 
 namespace BarVisionAPI.Migrations
 {
-    public partial class thirdcreate : Migration
+    public partial class SecondCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
