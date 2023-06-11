@@ -14,6 +14,7 @@ public class UserModel
     public string? Username { get; set; }
     public string? Password { get; set; }
     public string? Email { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public UserType UserType { get; set; }
     public bool IsActive { get; set; }
 
