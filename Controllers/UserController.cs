@@ -18,8 +18,13 @@ namespace BarVisionAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserModel userModel)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userModel.Username && u.Password == userModel.Password && u.IsActive);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userModel.Username);
             if (user == null)
+            {
+                return NotFound("Invalid username");
+            }
+
+            if (user.Password != userModel.Password || !user.IsActive)
             {
                 return NotFound("Invalid username or password");
             }
