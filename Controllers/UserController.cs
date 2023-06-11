@@ -148,5 +148,14 @@ namespace BarVisionAPI.Controllers
 
             return NoContent();
         }
+
+        // GET: api/user
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserModel>>> GetAllUsers()
+        {
+            var users = await _context.Users.ToListAsync();
+            return Ok(users);
+        }
+
     }
 }
