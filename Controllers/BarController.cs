@@ -36,6 +36,14 @@ namespace BarVisionAPI.Controllers
             return Ok(bar);
         }
 
+        // GET: api/Bar/owner/{ownerId}
+        [HttpGet("owner/{ownerId}")]
+        public async Task<ActionResult<IEnumerable<BarModel>>> GetBarsByOwner(int ownerId)
+        {
+            var bars = await _context.Bars.Where(bar => bar.OwnerId == ownerId).ToListAsync();
+            return Ok(bars);
+        }
+
         // POST: api/Bar
         [HttpPost]
         public async Task<ActionResult<BarModel>> CreateBar(BarModel bar)
