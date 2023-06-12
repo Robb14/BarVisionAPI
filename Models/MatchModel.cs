@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 public class MatchModel
 {
     public int Id { get; set; }
@@ -6,6 +8,7 @@ public class MatchModel
     public int BarId { get; set; } // Foreign Key
 
     // Relación muchos a uno con BarModel
+    [JsonIgnore]
     public BarModel? Bar { get; set; }
 }
 

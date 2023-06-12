@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarVisionAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230609100402_SecondCreate")]
-    partial class SecondCreate
+    [Migration("20230610100928_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
